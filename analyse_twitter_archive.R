@@ -23,8 +23,7 @@ month_counts <-
   as_tsibble(key = id(status_id), index = created_at) %>%
   index_by(year_month = yearmonth(created_at)) %>%
   summarise(n_tweets = n()) %>%
-  fill_gaps() %>%
-  mutate(n_tweets = replace_na(n_tweets, 0))
+  fill_gaps(n_tweets = 0)
 
 magic_counts <- month_counts(magic_tweets) %>%
   rename(n_tweets_magic = n_tweets)
