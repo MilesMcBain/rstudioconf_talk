@@ -9,7 +9,7 @@ str(all_tweets)
 
 magic_tweets <-
   all_tweets %>%
-  filter(grepl("magic", text)) %>%
+  filter(grepl("magic|sorcery|witchcraft", text)) %>%
   filter(!grepl("magick", text)) %>%
   filter(screen_name != "CRANberriesFeed")
 
@@ -37,7 +37,16 @@ comparison_frame %>%
   ggplot(aes(x = year_month, y = prop_magic)) +
   geom_line() +
   stat_smooth(se = FALSE) +
-  theme_minimal()
+  theme_minimal() +
+  xlab("Month") +
+  ylab("Proportion of magic tweets") +
+  ggtitle("#rstats Magic on Twitter",
+          subtitle = "Monthly proportion of tweets including 'magic', 'witchcraft', 'sorcery'")
+
+ggsave("rstats_twitter_magic.png",
+       width = 16,
+       height = 9,
+       units = "cm")
 
 ## investigate the 'bump' around 2013
 bump_tweets <-
@@ -72,12 +81,12 @@ magic_packages <-
   distinct()  ## use distinct to count only one mention per tweet.
 
 
-## top30
+## top25
 magic_packages %>%
   count(word) %>%
   filter(word != "magic") %>%
   arrange(desc(n)) %>%
-  top_n(30) %>%
+  filter(row_number() <= 25) %>%
   ggplot(aes(x = fct_reorder(word, n), y = n)) +
   geom_bar(stat = "identity") +
   theme_minimal() +
@@ -95,8 +104,16 @@ magic_packages %>%
                           "shiny",
                           "plyr",
                           "later"),
-              use_group_by = FALSE)
+              use_group_by = FALSE) +
+  ggtitle("Distribution of Magical Mentions",
+          "Top 25 by counts of tweets including package name and magical terms") +
+  xlab("Package") +
+  ylab("Number of tweets")
 
+ggsave("distribution of magical mentions.png",
+       width = 16,
+       height = 9,
+       units = "cm")
 
 ## All
 magic_packages %>%
@@ -107,18 +124,33 @@ magic_packages %>%
   geom_bar(stat = "identity") +
   theme_minimal() +
   coord_flip() +
-  gghighlight(word %in% "datapasta",
-              use_group_by = FALSE) +
   theme(axis.text.y = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()
-        )
+        ) +
+  ggtitle("Full Distribution of Magical Mentions",
+          subtitle = "Spanning 244 Packages") +
+  xlab("Packages") +
+  ylab("Number of Tweets")
 
+magic_packages %>%
+  count(word)
+
+ggsave("full distribution of magical mentions.png",
+       width = 16,
+       height = 9,
+       units = "cm")
 
 interesting_statuses <-
   magic_packages %>%
   filter(word == "automagic") %>%
   pull(status_id)
 
-
   filter(.data = magic_tweets, status_id %in% interesting_statuses)
+
+## list
+magic_packages %>%
+  count(word) %>%
+  filter(word != "magic") %>%
+  arrange(desc(n)) %>%
+  print(n = 400)

@@ -6,3 +6,6 @@ tweets %>%
   count(Topic) %>%
   arrange(desc(n)) %>%
   print(n = 100)
+
+tweets %>%
+  filter(Topic == "scrapR")
