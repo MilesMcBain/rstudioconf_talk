@@ -128,13 +128,15 @@ magic_packages %>%
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()
         ) +
-  ggtitle("Full Distribution of Magical Mentions",
+  ggtitle("Distribution of Magical Mentions",
           subtitle = "Spanning 244 Packages") +
   xlab("Packages") +
   ylab("Number of Tweets")
 
 magic_packages %>%
-  count(word)
+    count(word) %>%
+    arrange(desc(n)) %>%
+    print(n = 400)
 
 ggsave("full distribution of magical mentions.png",
        width = 16,
