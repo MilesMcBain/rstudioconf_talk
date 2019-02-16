@@ -1,6 +1,9 @@
 # RStudio::conf 2019 Talk
 
-My slides from my RStudio::conf 2019 talk along the with the code I used to make my plots.
+The video and slides from my RStudio::conf 2019 talk along the with the code I used to make my plots.
+
+## Video:
+[RStudio recording Here](https://resources.rstudio.com/rstudio-conf-2019/our-colour-of-magic-the-open-sourcery-of-fantastic-r-packages)
 
 ## Slides:
 [Google Slides Here](https://docs.google.com/presentation/d/1iUz3A_xHIzeFIzOQ_JQLdGPbC82qcDEDSqvjIBiP1a8/edit?usp=sharing)
